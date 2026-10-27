@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://saarasulanen.com/sitemap-index.xml

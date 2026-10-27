@@ -1,0 +1,24 @@
+---
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = "Pyydä tarjous kalustollesi",
+  text = "Kerro kone ja paikkakunta. Saat hinnan ennen kuin työhön ryhdytään.",
+} = Astro.props;
+---
+
+<section class="border-t border-line bg-graphite" aria-labelledby="cta-otsikko">
+  <div class="shell flex flex-col items-start justify-between gap-6 py-12 md:flex-row md:items-center">
+    <div>
+      <h2 id="cta-otsikko" class="display text-4xl sm:text-5xl">{title}</h2>
+      <p class="mt-3 max-w-xl text-mist">{text}</p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <a class="btn btn-brand" href="/yhteystiedot/">Pyydä tarjous</a>
+      <a class="btn btn-ghost" href="tel:+358503514657">Soita 050 351 4657</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,221 @@
+---
+import { site } from "../data/site";
+import { services } from "../data/services";
+
+const key = site.turnstileSiteKey;
+---
+
+<form
+  class="grid gap-4"
+  action={site.formAction}
+  method="post"
+  enctype="multipart/form-data"
+  data-quote-form
+  data-endpoint={site.formEndpoint}
+  novalidate
+>
+  <input type="hidden" name="_subject" value="Tarjouspyyntö – Saara Sulanen Oy" />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <p class="absolute -left-[9999px] h-0 overflow-hidden" aria-hidden="true">
+    <label for="yritys-www">Jätä tämä kenttä tyhjäksi</label>
+    <input id="yritys-www" type="text" name="_honey" tabindex="-1" autocomplete="off" />
+  </p>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <label class="mb-1 block text-sm font-semibold" for="nimi">Nimi</label>
+      <input class="field" id="nimi" name="Nimi" type="text" autocomplete="name" required />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold" for="yritys">Yritys</label>
+      <input class="field" id="yritys" name="Yritys" type="text" autocomplete="organization" />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold" for="puhelin">Puhelin</label>
+      <input class="field" id="puhelin" name="Puhelin" type="tel" inputmode="tel" autocomplete="tel" required />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold" for="sahkoposti">Sähköposti</label>
+      <input class="field" id="sahkoposti" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold" for="paikkakunta">Paikkakunta</label>
+      <input class="field" id="paikkakunta" name="Paikkakunta" type="text" autocomplete="address-level2" required />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold" for="kalusto">Kalustotyyppi</label>
+      <select class="field" id="kalusto" name="Kalusto" required>
+        <option value="">Valitse kalusto</option>
+        {services.map((service) => <option value={service.nav}>{service.nav}</option>)}
+        <option value="Muu">Muu</option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label class="mb-1 block text-sm font-semibold" for="merkki">Merkki ja malli</label>
+    <input class="field" id="merkki" name="Merkki ja malli" type="text" />
+  </div>
+  <div>
+    <label class="mb-1 block text-sm font-semibold" for="viesti">Viesti</label>
+    <textarea class="field min-h-32" id="viesti" name="Viesti"></textarea>
+  </div>
+  <div>
+    <span class="mb-1 block text-sm font-semibold" id="kuvat-otsikko">Kuvat, valinnainen</span>
+    <input class="sr-only" id="kuvat" name="attachment" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple aria-labelledby="kuvat-otsikko" data-files />
+    <label class="btn btn-ghost cursor-pointer" for="kuvat">Valitse kuvat</label>
+    <p class="mt-2 text-sm text-mist" data-file-names>Ei kuvia valittu</p>
+    <p class="mt-1 text-sm text-mist">Enintään 3 kuvaa, yksittäinen tiedosto alle 4 Mt. JPG, PNG, WEBP tai HEIC.</p>
+  </div>
+
+  {key && <div class="cf-turnstile" data-sitekey={key}></div>}
+
+  <label class="flex items-start gap-3 text-sm">
+    <input id="suostumus" name="Suostumus" type="checkbox" value="Kyllä" class="mt-1" required />
+    <span>
+      Hyväksyn, että Saara Sulanen Oy käsittelee tietojani tarjouspyynnön hoitamiseksi.
+      <a class="text-brand underline" href="/tietosuoja/">Lue tietosuojaseloste</a>.
+    </span>
+  </label>
+
+  <button class="btn btn-brand justify-self-start" type="submit" data-submit>Lähetä tarjouspyyntö</button>
+  <p class="hidden text-sm" data-status role="status"></p>
+  <div class="hidden border border-brand p-5" data-thanks tabindex="-1">
+    <h2 class="display text-3xl">Viesti on vastaanotettu</h2>
+    <p class="mt-2 text-mist">Otamme yhteyttä. Jos asia on kiireinen, soita {site.phoneDisplay}.</p>
+  </div>
+</form>
+
+{
+  key && (
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+  )
+}
+
+<script>
+  const form = document.querySelector("[data-quote-form]");
+  if (!(form instanceof HTMLFormElement)) {
+    /* Sivulla ei ole lomaketta. */
+  } else {
+    const status = form.querySelector("[data-status]");
+    const thanks = form.querySelector("[data-thanks]");
+    const button = form.querySelector("[data-submit]");
+    const endpoint = form.dataset.endpoint || "";
+
+    const say = (message: string, ok = false) => {
+      if (!(status instanceof HTMLElement)) return;
+      status.hidden = false;
+      status.classList.remove("hidden");
+      status.classList.toggle("text-danger", !ok);
+      status.classList.toggle("text-mist", ok);
+      status.textContent = message;
+    };
+
+    const fileInput = form.querySelector<HTMLInputElement>("[data-files]");
+    const fileNames = form.querySelector("[data-file-names]");
+    fileInput?.addEventListener("change", () => {
+      if (!(fileNames instanceof HTMLElement) || !fileInput.files) return;
+      fileNames.textContent = fileInput.files.length
+        ? [...fileInput.files].map((file) => file.name).join(", ")
+        : "Ei kuvia valittu";
+    });
+
+    form.addEventListener("input", (event) => {
+      const target = event.target;
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLSelectElement ||
+        target instanceof HTMLTextAreaElement
+      ) {
+        target.setCustomValidity("");
+      }
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const honey = form.querySelector<HTMLInputElement>("[name='_honey']");
+      if (honey?.value) return;
+
+      const messages: Record<string, string> = {
+        Nimi: "Kirjoita nimesi.",
+        Puhelin: "Kirjoita puhelinnumero.",
+        email: "Kirjoita sähköpostiosoite.",
+        Paikkakunta: "Kirjoita paikkakunta.",
+        Kalusto: "Valitse kalusto.",
+      };
+      for (const [name, message] of Object.entries(messages)) {
+        const field = form.elements.namedItem(name);
+        if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement) {
+          if (field.validity.valueMissing) field.setCustomValidity(message);
+          else if (field.validity.typeMismatch) field.setCustomValidity("Tarkista sähköpostiosoite.");
+          else field.setCustomValidity("");
+        }
+      }
+
+      const consent = form.querySelector<HTMLInputElement>("#suostumus");
+      if (consent) {
+        consent.setCustomValidity(
+          consent.checked ? "" : "Hyväksy tietojen käsittely, jotta tarjouspyyntö voidaan lähettää.",
+        );
+      }
+
+      if (!form.reportValidity()) return;
+
+      const files = form.querySelector<HTMLInputElement>("#kuvat")?.files;
+      if (files) {
+        if (files.length > 3) {
+          say("Liitä enintään 3 kuvaa.");
+          return;
+        }
+        for (const file of files) {
+          if (file.size > 4 * 1024 * 1024) {
+            say("Yksittäinen kuva saa olla enintään 4 megatavua.");
+            return;
+          }
+        }
+      }
+
+      const turnstile = form.querySelector<HTMLTextAreaElement>("[name='cf-turnstile-response']");
+      if (form.querySelector(".cf-turnstile") && !turnstile?.value) {
+        say("Vahvista vielä roskapostitarkistus.");
+        return;
+      }
+
+      if (button instanceof HTMLButtonElement) {
+        button.disabled = true;
+        button.textContent = "Lähetetään…";
+      }
+
+      const body = new FormData(form);
+      if (!files || files.length === 0) body.delete("attachment");
+      const nimi = body.get("Nimi");
+      const kalusto = body.get("Kalusto");
+      body.set("_subject", `Tarjouspyyntö: ${kalusto} – ${nimi}`);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body,
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        Array.from(form.children).forEach((child) => {
+          if (child !== thanks) child.setAttribute("hidden", "");
+          if (child !== thanks) child.classList.add("hidden");
+        });
+        if (thanks instanceof HTMLElement) {
+          thanks.hidden = false;
+          thanks.classList.remove("hidden");
+          thanks.focus();
+        }
+      } catch {
+        say("Lähetys ei onnistunut. Soita 050 351 4657 tai lähetä sähköposti osoitteeseen info@saarasulanen.com.");
+        if (button instanceof HTMLButtonElement) {
+          button.disabled = false;
+          button.textContent = "Lähetä tarjouspyyntö";
+        }
+      }
+    });
+  }
+</script>

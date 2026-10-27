@@ -1,0 +1,82 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import GapText from "../../components/GapText.astro";
+import { services, servicePath } from "../../data/services";
+import type { Service } from "../../data/services";
+import { sharedNotes } from "../../data/process";
+import { breadcrumbNode, serviceNode } from "../../lib/jsonld";
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const crumbs = [
+  { name: "Etusivu", href: "/" },
+  { name: "Palvelut", href: "/palvelut/" },
+  { name: service.nav, href: servicePath(service.slug) },
+];
+const notes = [
+  { title: "Mitä pintoja", text: sharedNotes.surfaces },
+  { title: "Kesto ja huolto", text: sharedNotes.duration },
+  { title: "Hinta", text: sharedNotes.price },
+];
+---
+
+<Base
+  title={service.metaTitle}
+  description={service.metaDescription}
+  jsonLd={[breadcrumbNode(crumbs), serviceNode(service)]}
+>
+  <PageHero eyebrow="Palvelu" title={service.h1} crumbs={crumbs}>
+    <p>{service.lead}</p>
+  </PageHero>
+
+  <div class="shell grid gap-10 py-14 lg:grid-cols-[1.2fr_0.8fr]">
+    <div>
+      <h2 class="display text-4xl">Miksi pinta pinnoitetaan</h2>
+      <p class="mt-4 text-mist">{service.challenge}</p>
+      <h2 class="display mt-10 text-4xl">Hyöty tälle kalustolle</h2>
+      <ul class="ticks mt-4 text-mist">
+        {service.benefits.map((benefit) => <li>{benefit}</li>)}
+      </ul>
+    </div>
+    <aside class="border border-line bg-panel p-6">
+      <h2 class="display text-3xl">Tyypillinen kalusto</h2>
+      <ul class="ticks mt-4">
+        {service.machines.map((machine) => <li>{machine}</li>)}
+      </ul>
+      <p class="mt-4">
+        <GapText text={`[TÄYDENNÄ: ${service.machineGap}]`} />
+      </p>
+    </aside>
+  </div>
+
+  <div class="shell grid gap-4 pb-14 lg:grid-cols-3">
+    {
+      notes.map((note) => (
+        <article class="border border-line p-6">
+          <h2 class="display text-3xl">{note.title}</h2>
+          <p class="mt-3 text-mist">
+            <GapText text={note.text} />
+          </p>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="shell flex flex-wrap gap-3 pb-16">
+    <a class="btn btn-ghost" href={`/referenssit/?tyyppi=${service.slug}`}>Katso tämän kaluston kuvat</a>
+    <a class="btn btn-ghost" href="/keraaminen-pinnoitus/">Miten pinnoitus toimii</a>
+  </div>
+  <CtaBand />
+</Base>

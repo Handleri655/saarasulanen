@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+
+const title = "Evästeseloste | Saara Sulanen Oy";
+const description =
+  "Saara Sulanen Oy:n evästeseloste. Ei seurantaevästeitä. Meistä-sivun kartta ladataan Googlelta.";
+---
+
+<Base title={title} description={description}>
+  <article class="paper">
+    <div class="shell prose-light py-14">
+      <p class="text-sm font-semibold tracking-[0.16em] uppercase">Evästeet</p>
+      <h1 class="display mt-3 text-5xl sm:text-6xl">Evästeseloste</h1>
+      <p class="mt-3 text-sm">Päivitetty {site.updated}</p>
+      <p class="mt-6">
+        Eväste on pieni tekstitiedosto, jonka sivusto voi tallentaa selaimeen. {site.name} ei käytä evästebanneria, koska sivusto ei aseta seuranta-, markkinointi- tai analytiikkaevästeitä.
+      </p>
+
+      <h2>Tämä sivusto</h2>
+      <p>
+        Sivusto ei aseta omia evästeitä eikä käytä kävijäseurantaa.
+        <span class="gap-chip">[TÄYDENNÄ: jos analytiikka lisätään, päivitä tämä sivu]</span>
+      </p>
+
+      <h2>Google Maps</h2>
+      <p>
+        Meistä-sivun toimipaikan kartta latautuu Googlelta. Google voi asettaa evästeitä ja käsitellä IP-osoitteesi. Osoite Perniöntie 2530, 25500 Perniö on sivulla myös tekstinä. Yhteystietosivun kartta ei lataudu itsestään. Kun painat ”Näytä kartta”, selain ottaa yhteyden Googleen.
+      </p>
+
+      <h2>Lomake</h2>
+      <p>
+        Tarjouslomake ei aseta evästettä. Roskapostin esto on piilokenttä, jonka ihminen jättää tyhjäksi.
+        <span class="gap-chip">[TÄYDENNÄ: jos Cloudflare Turnstile otetaan käyttöön, kerro siitä tässä]</span>
+      </p>
+
+      <h2>Selain</h2>
+      <p>Evästeet voi poistaa selaimen asetuksista. Sivuston käyttö ei edellytä evästeiden hyväksymistä.</p>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,180 @@
+---
+import Logo from "./Logo.astro";
+import { site } from "../data/site";
+import { services, servicePath } from "../data/services";
+import type { Service } from "../data/services";
+
+function menuHint(service: Service, count: number) {
+  return service.machines
+    .filter((item) => item.toLocaleLowerCase("fi") !== service.nav.toLocaleLowerCase("fi"))
+    .slice(0, count)
+    .join(", ");
+}
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function active(href: string) {
+  const clean = href.replace(/\/$/, "") || "/";
+  return path === clean;
+}
+
+const palvelutActive = path === "/palvelut" || path.startsWith("/palvelut/");
+
+const links = [
+  { href: "/keraaminen-pinnoitus/", label: "Pinnoitus" },
+  { href: "/referenssit/", label: "Referenssit" },
+  { href: "/meista/", label: "Meistä" },
+  { href: "/yhteystiedot/", label: "Yhteystiedot" },
+];
+
+const homeActive = path === "/";
+---
+
+<header class="site-header">
+  <div class="shell site-header-row">
+    <Logo />
+    <nav class="site-nav" aria-label="Päävalikko">
+      <details class:list={["nav-drop", palvelutActive && "is-active"]} data-services>
+        <summary class:list={["nav-link", palvelutActive && "is-active"]}>
+          Palvelut
+          <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M2 4.2 6 8l4-3.8" fill="none" stroke="currentColor" stroke-width="1.6"></path>
+          </svg>
+        </summary>
+        <div class="nav-panel">
+          <a class:list={["nav-panel-all", active("/palvelut/") && "is-active"]} href="/palvelut/" aria-current={active("/palvelut/") ? "page" : undefined}>
+            <span class="nav-index" aria-hidden="true">→</span>
+            <span class="nav-name">Kaikki palvelut</span>
+            <span class="nav-panel-go">Neljä kalustoryhmää</span>
+          </a>
+          {
+            services.map((service, index) => (
+              <a href={servicePath(service.slug)} class:list={[active(servicePath(service.slug)) && "is-active"]} aria-current={active(servicePath(service.slug)) ? "page" : undefined}>
+                <span class="nav-index">{String(index + 1).padStart(2, "0")}</span>
+                <span class="nav-name">{service.nav}</span>
+                <span class="nav-hint">{menuHint(service, 3)}</span>
+              </a>
+            ))
+          }
+        </div>
+      </details>
+      {
+        links.map((link) => (
+          <a href={link.href} class:list={["nav-link", active(link.href) && "is-active"]} aria-current={active(link.href) ? "page" : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="site-tools">
+      <a class="site-phone" href={`tel:${site.phoneTel}`}>
+        <span>Soita</span>
+        <strong>{site.phoneDisplay}</strong>
+      </a>
+      <a class="btn btn-brand" href="/yhteystiedot/">Pyydä tarjous</a>
+    </div>
+    <button type="button" class="menu-btn" aria-haspopup="dialog" aria-expanded="false" data-menu-open>
+      <span class="sr-only">Avaa valikko</span>
+      <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<dialog class="nav-dialog" data-dialog aria-label="Valikko">
+  <div class="nav-dialog-bar">
+    <Logo />
+    <button type="button" class="menu-btn" data-menu-close autofocus>
+      <span class="sr-only">Sulje valikko</span>
+      <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+        <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="nav-dialog-scroll">
+    <nav aria-label="Mobiilivalikko">
+      <p class="nav-group-label">Sivut</p>
+      <ul class="nav-group">
+        <li>
+          <a class:list={["nav-row", homeActive && "is-active"]} href="/" aria-current={homeActive ? "page" : undefined}>Etusivu</a>
+        </li>
+        {
+          links.map((link) => (
+            <li>
+              <a class:list={["nav-row", active(link.href) && "is-active"]} href={link.href} aria-current={active(link.href) ? "page" : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="nav-group-label">Palvelut</p>
+      <ul class="nav-group">
+        <li>
+          <a class:list={["nav-row", active("/palvelut/") && "is-active"]} href="/palvelut/" aria-current={active("/palvelut/") ? "page" : undefined}>
+            Kaikki palvelut
+          </a>
+        </li>
+        {
+          services.map((service) => (
+            <li>
+              <a
+                class:list={["nav-row", active(servicePath(service.slug)) && "is-active"]}
+                href={servicePath(service.slug)}
+                aria-current={active(servicePath(service.slug)) ? "page" : undefined}
+              >
+                {service.nav}
+                <small>{menuHint(service, 1)}</small>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="nav-dialog-actions">
+      <a class="btn btn-ghost" href={`tel:${site.phoneTel}`}>Soita</a>
+      <a class="btn btn-brand" href="/yhteystiedot/">Pyydä tarjous</a>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector("[data-dialog]");
+  const openBtn = document.querySelector("[data-menu-open]");
+  const closeBtn = document.querySelector("[data-menu-close]");
+  const servicesMenu = document.querySelector("[data-services]");
+
+  const setExpanded = (open: boolean) => {
+    if (openBtn instanceof HTMLButtonElement) openBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  };
+
+  openBtn?.addEventListener("click", () => {
+    if (dialog instanceof HTMLDialogElement) {
+      dialog.showModal();
+      setExpanded(true);
+    }
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    if (dialog instanceof HTMLDialogElement) dialog.close();
+  });
+
+  dialog?.addEventListener("close", () => {
+    setExpanded(false);
+  });
+
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog && dialog instanceof HTMLDialogElement) dialog.close();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!(servicesMenu instanceof HTMLDetailsElement) || !servicesMenu.open) return;
+    if (event.target instanceof Node && servicesMenu.contains(event.target)) return;
+    servicesMenu.open = false;
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && servicesMenu instanceof HTMLDetailsElement) servicesMenu.open = false;
+  });
+</script>

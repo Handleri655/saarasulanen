@@ -1,0 +1,18 @@
+---
+import Base from "../layouts/Base.astro";
+
+const title = "Sivua ei löytynyt | Saara Sulanen Oy";
+const description = "Hakemaasi sivua ei löytynyt. Siirry etusivulle tai pyydä tarjous Saara Sulanen Oy:ltä.";
+---
+
+<Base title={title} description={description} noindex={true}>
+  <div class="shell py-24">
+    <p class="eyebrow">404</p>
+    <h1 class="display mt-3 text-6xl">Sivua ei löytynyt</h1>
+    <p class="mt-4 max-w-xl text-mist">Osoite on vanhentunut tai kirjoitettu väärin. Etusivulta pääsee palveluihin ja tarjouspyyntöön.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a class="btn btn-brand" href="/">Etusivulle</a>
+      <a class="btn btn-ghost" href="/yhteystiedot/">Pyydä tarjous</a>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,43 @@
+<div class="ba">
+  <div class="ba-stage" data-ba>
+    <img
+      class="ba-photo"
+      src="/kuvat/vertailu-jalkeen.jpg"
+      alt="Keltainen Volvo L90H -pyöräkuormaaja hallissa, puhdas maalipinta."
+      width="1200"
+      height="675"
+    />
+    <div class="ba-before" data-ba-before>
+      <img
+        class="ba-photo"
+        src="/kuvat/vertailu-ennen.jpg"
+        alt=""
+        width="1200"
+        height="675"
+      />
+      <span class="ba-badge ba-badge-left">Ennen</span>
+    </div>
+    <span class="ba-badge ba-badge-right">Jälkeen</span>
+    <div class="ba-handle" data-ba-handle aria-hidden="true"></div>
+    <label class="ba-hit">
+      <span class="sr-only">Vertaa näkymää. Vasemmalla likainen havainne, oikealla valokuva puhtaasta koneesta.</span>
+      <input class="ba-range" type="range" min="4" max="96" value="52" data-ba-range />
+    </label>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector("[data-ba]");
+  const before = document.querySelector("[data-ba-before]");
+  const range = document.querySelector("[data-ba-range]");
+
+  if (root instanceof HTMLElement && before instanceof HTMLElement && range instanceof HTMLInputElement) {
+    const paint = () => {
+      const value = `${range.value}%`;
+      before.style.width = value;
+      root.style.setProperty("--pos", value);
+    };
+    range.addEventListener("input", paint);
+    paint();
+  }
+</script>

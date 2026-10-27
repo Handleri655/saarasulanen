@@ -1,0 +1,13 @@
+---
+interface Props {
+  text: string;
+}
+
+const parts = Astro.props.text.split(/(\[TÄYDENNÄ:[^\]]+\])/g);
+---
+
+{
+  parts.map((part) =>
+    part.startsWith("[TÄYDENNÄ:") ? <span class="gap-chip">{part}</span> : part,
+  )
+}

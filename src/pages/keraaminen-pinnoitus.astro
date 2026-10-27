@@ -1,0 +1,86 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FaqList from "../components/FaqList.astro";
+import CtaBand from "../components/CtaBand.astro";
+import GapText from "../components/GapText.astro";
+import { faqs } from "../data/faq";
+import { steps } from "../data/process";
+import { breadcrumbNode, faqNode } from "../lib/jsonld";
+
+const crumbs = [
+  { name: "Etusivu", href: "/" },
+  { name: "Keraaminen pinnoitus", href: "/keraaminen-pinnoitus/" },
+];
+
+const title = "Mikä on keraaminen pinnoitus? | Saara Sulanen";
+const description =
+  "Mikä on keraaminen pinnoitus ja miten se eroaa vahasta? Selkokielinen opas työkoneille ja raskaalle kalustolle sekä vastaukset yleisiin kysymyksiin.";
+
+const benefits = [
+  "Lika, suola, piki, kalkki ja orgaaninen lika irtoavat helpommin.",
+  "Pesuun kuluu vähemmän aikaa.",
+  "Maalipinta pysyy siistimpänä, mikä tukee jälleenmyyntiarvoa.",
+  "Pinta hylkii vettä, joten kone kuivuu nopeammin eikä lika tartu märkään pintaan yhtä herkästi.",
+  "Työympäristö pysyy siistimpänä, kun kalusto ei kanna samaa määrää likaa mukanaan.",
+];
+---
+
+<Base title={title} description={description} jsonLd={[breadcrumbNode(crumbs), faqNode(faqs)]}>
+  <PageHero eyebrow="Opas" title="Mikä on keraaminen pinnoitus?" crumbs={crumbs}>
+    <p>
+      Keraaminen pinnoitus on nestemäinen pinnoite, joka levitetään esikäsitellylle maalipinnalle. Kuivuessaan se muodostaa ohuen, kovan ja vettähylkivän kerroksen. Alalla pinnoite perustuu usein piidioksidiin.
+    </p>
+  </PageHero>
+
+  <article class="shell py-14">
+    <h2 class="display text-4xl">Miten se eroaa vahasta</h2>
+    <p class="mt-4 max-w-3xl text-mist">
+      Vaha istuu pinnalla ja kuluu pois viikoissa tai kuukausissa. Keraaminen pinnoite levitetään puhtaalle pinnalle, jossa se kiinnittyy ja muodostaa ohuen kerroksen. Käytännön kesto on pidempi kuin vahalla. Tarkka kesto riippuu tuotteesta ja käytöstä.
+    </p>
+    <p class="mt-3">
+      <GapText text="[TÄYDENNÄ: käytettävä tuote ja ilmoitettu kesto]" />
+    </p>
+
+    <h2 class="display mt-12 text-4xl">Mitä hyötyä koneelle on</h2>
+    <ol class="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-mist">
+      {benefits.map((benefit) => <li class="pl-1">{benefit}</li>)}
+    </ol>
+    <p class="mt-4 max-w-3xl text-sm text-mist">
+      Lista kuvaa pinnoituksen ideaa. Se ei ole lupaus tietystä mittaustuloksesta.
+    </p>
+
+    <h2 class="display mt-12 text-4xl">Mitä pinnoite ei tee</h2>
+    <ul class="ticks mt-4 max-w-3xl text-mist">
+      <li>Ei tasoita naarmuja eikä korvaa maalausta.</li>
+      <li>Ei estä kiveniskuja.</li>
+      <li>Ei ole panssari kauhan tai muun kulutuspinnan päällä.</li>
+      <li>Ei poista ruostetta. Ruoste ja irtoava maali pitää käsitellä ennen pinnoitusta.</li>
+      <li>Ei poista pesun tarvetta.</li>
+    </ul>
+    <p class="mt-4">
+      <GapText text="[TÄYDENNÄ: tehdäänkö maalikorjauksia ennen pinnoitusta]" />
+    </p>
+
+    <h2 class="display mt-12 text-4xl">Miten työ etenee</h2>
+    <ol class="mt-6 grid gap-4 md:grid-cols-5">
+      {
+        steps.map((step) => (
+          <li class="border border-line p-4">
+            <p class="display text-3xl text-brand">{step.n}</p>
+            <h3 class="display mt-2 text-2xl">{step.title}</h3>
+            <p class="mt-2 text-sm text-mist">
+              <GapText text={step.text} />
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <h2 class="display mt-14 text-4xl">Usein kysyttyä</h2>
+    <div class="mt-6">
+      <FaqList items={faqs} />
+    </div>
+  </article>
+  <CtaBand />
+</Base>

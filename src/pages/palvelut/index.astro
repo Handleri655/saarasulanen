@@ -1,0 +1,51 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import GapText from "../../components/GapText.astro";
+import { services, servicePath } from "../../data/services";
+import { sharedNotes } from "../../data/process";
+import { breadcrumbNode } from "../../lib/jsonld";
+
+const crumbs = [
+  { name: "Etusivu", href: "/" },
+  { name: "Palvelut", href: "/palvelut/" },
+];
+
+const title = "Pinnoituspalvelut raskaalle kalustolle | Saara Sulanen";
+const description =
+  "Keraaminen pinnoitus työkoneille, maatalouskoneille, kuorma-autoille ja oheislaitteille. Työ hinnoitellaan kohteen mukaan. Pyydä tarjous.";
+---
+
+<Base title={title} description={description} jsonLd={[breadcrumbNode(crumbs)]}>
+  <PageHero eyebrow="Palvelut" title="Pinnoituspalvelut" crumbs={crumbs}>
+    <p>
+      Pinnoitamme työkoneita, maatalouskoneita, kuorma-autoja ja oheislaitteita. Metsäkoneet kuuluvat työkoneisiin.
+      Hinta määräytyy kohteen mukaan.
+    </p>
+  </PageHero>
+  <div class="shell grid gap-4 py-14 md:grid-cols-2">
+    {
+      services.map((service) => (
+        <a class="block border border-line bg-panel p-6 no-underline hover:border-brand" href={servicePath(service.slug)}>
+          <h2 class="display text-4xl text-paper">{service.nav}</h2>
+          <p class="mt-3 text-mist">{service.lead}</p>
+          <p class="mt-6 text-sm font-semibold tracking-[0.14em] text-brand uppercase">Avaa palvelu</p>
+        </a>
+      ))
+    }
+  </div>
+  <div class="shell grid gap-4 pb-16 lg:grid-cols-2">
+    <article class="border border-line p-6">
+      <h2 class="display text-3xl">Missä työ tehdään</h2>
+      <p class="mt-3 text-mist"><GapText text={sharedNotes.where} /></p>
+    </article>
+    <article class="border border-line p-6">
+      <h2 class="display text-3xl">Muu kalusto</h2>
+      <p class="mt-3 text-mist">
+        Erikoisala on työkoneet, raskas kalusto ja oheislaitteet. <GapText text={sharedNotes.vehicles} />
+      </p>
+    </article>
+  </div>
+  <CtaBand />
+</Base>
