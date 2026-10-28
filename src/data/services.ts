@@ -91,5 +91,5 @@ export const services: Service[] = [
 ];
 
 export function servicePath(slug: string) {
-  return `/palvelut/${slug}/`;
+  return `/palvelut/#${slug}`;
 }

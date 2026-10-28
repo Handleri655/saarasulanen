@@ -1,199 +1,154 @@
 ---
 import Base from "../layouts/Base.astro";
-import BeforeAfter from "../components/BeforeAfter.astro";
-import CtaBand from "../components/CtaBand.astro";
-import GapText from "../components/GapText.astro";
+import ContactForm from "../components/ContactForm.astro";
 import { site } from "../data/site";
-import { goals, steps, sharedNotes } from "../data/process";
-import { services, servicePath } from "../data/services";
 import { gallery } from "../data/gallery";
 
-const homePhotos = gallery.filter((item) => item.home);
+const benefits = [
+  {
+    title: "Puhtaanapito helpottuu",
+    text: "Pinnoite muodostaa koneen ulkopinnoille kovan, lasimaisen kerroksen, jonka ansiosta lika ei pinty kuten suoraan huokoiseen maalipintaan. Pinnoitteen hydrofobiset ominaisuudet vähentävät epäpuhtauksien kertymistä pinnoille.",
+  },
+  {
+    title: "Kemikaali- ja UV-suoja",
+    text: "Pinnoite tarjoaa erinomaisen suojan kemikaaleja, hapettumista, auringon UV-säteilyä sekä muita epäpuhtauksia vastaan.",
+  },
+  {
+    title: "Fyysinen suoja",
+    text: "Pinnoitteen antama vahva fyysinen suoja perustuu sen asennustapaan ja itse tuotteen ominaisuuksiin. Pinnoite levitetään ruiskuttamalla, jolloin sitä saadaan myös ahtaisiin väleihin, kuten kaivinkoneen puomistoon.",
+  },
+];
 
-const title = "Keraaminen pinnoitus työkoneille | Saara Sulanen";
+const title = "Ratkaisu koneiden puhtaanapitoon ja suojaukseen | Saara Sulanen";
 const description =
-  "Työkoneiden, maatalouskoneiden ja raskaan kaluston keraamiset pinnoitukset ympäri Suomen. Suojaa kalustoa, helpota pesua ja säilytä jälleenmyyntiarvo.";
+  "Tarjoamme työkoneiden, raskaan kaluston ja oheislaitteiden pinnoituspalveluita ympäri Suomea. Ceramic Pro Strong helpottaa puhtaanapitoa ja suojaa pintaa.";
 ---
 
 <Base title={title} description={description}>
-  <section class="relative overflow-hidden border-b border-line">
-    <div class="grid-fade pointer-events-none absolute inset-0" aria-hidden="true"></div>
-    <div class="shell relative grid items-center gap-12 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
-      <div>
-        <p class="eyebrow">{site.slogan}</p>
-        <h1 class="display mt-4 text-[2.7rem] text-balance sm:text-6xl lg:text-7xl">
-          Keraamiset pinnoitukset
-          <span class="mt-1 block text-brand">työkoneille ja raskaalle kalustolle</span>
-        </h1>
-        <p class="mt-6 max-w-xl text-lg text-mist">
-          Suojaa koneesi, helpota pesua ja säilytä jälleenmyyntiarvo. Palvelemme työkoneita, maatalouskoneita ja raskasta kalustoa ympäri Suomen.
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a class="btn btn-brand" href="/yhteystiedot/">Pyydä tarjous</a>
-          <a class="btn btn-ghost" href={`tel:${site.phoneTel}`}>Soita {site.phoneDisplay}</a>
-        </div>
-        <dl class="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-line pt-6">
-          <div>
-            <dt class="text-xs font-semibold tracking-[0.14em] text-mist uppercase">Perustettu</dt>
-            <dd class="display mt-1 text-2xl wrap-normal sm:text-3xl">{site.founded}</dd>
-          </div>
-          <div>
-            <dt class="text-xs font-semibold tracking-[0.14em] text-mist uppercase">Toimipaikka</dt>
-            <dd class="display mt-1 text-2xl wrap-normal sm:text-3xl">{site.address.city}</dd>
-          </div>
-          <div>
-            <dt class="text-xs font-semibold tracking-[0.14em] text-mist uppercase">Palvelualue</dt>
-            <dd class="display mt-1 text-2xl wrap-normal sm:text-3xl">Suomi</dd>
-          </div>
-        </dl>
-      </div>
-      <figure>
-        <img
-          src="/kuvat/volvo-l90h-taka.jpg"
-          alt="Keltainen Volvo L90H -pyöräkuormaaja takaviistosta hallissa. Ohjaamon lasit on peitetty suojapaperilla."
-          width="1200"
-          height="1600"
-          class="aspect-[3/4] w-full object-cover"
-          fetchpriority="high"
-        />
-        <figcaption class="mt-2 text-right text-xs tracking-[0.14em] text-mist uppercase">
-          Volvo L90H · Piikkiö
-        </figcaption>
-      </figure>
+  <section class="home-hero">
+    <div class="home-hero-slides">
+      <img
+        class="home-hero-shot is-shown"
+        src="/kuvat/hero-volvo.jpg"
+        alt=""
+        width="1280"
+        height="720"
+        fetchpriority="high"
+      />
+      <img class="home-hero-shot" src="/kuvat/hero-ponsse.jpg" alt="" width="1280" height="720" />
+      <img class="home-hero-shot" src="/kuvat/hero-fendt.jpg" alt="" width="1280" height="720" />
+      <img class="home-hero-shot" src="/kuvat/hero-hyundai.jpg" alt="" width="1280" height="720" />
     </div>
-  </section>
-
-  <section class="shell py-16 lg:py-20" aria-labelledby="tavoitteet">
-    <p class="eyebrow">Tavoite</p>
-    <h2 id="tavoitteet" class="display mt-3 max-w-3xl text-4xl sm:text-5xl">Mitä pinnoituksella haetaan</h2>
-    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        goals.map((goal, index) => (
-          <article class="border border-line bg-panel p-5">
-            <p class="display text-3xl text-brand">{String(index + 1).padStart(2, "0")}</p>
-            <h3 class="display mt-4 text-2xl">{goal.title}</h3>
-            <p class="mt-3 text-sm text-mist">{goal.text}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="border-y border-line bg-graphite" aria-labelledby="kalusto">
-    <div class="shell py-16 lg:py-20">
-      <p class="eyebrow">Kalusto</p>
-      <h2 id="kalusto" class="display mt-3 text-4xl sm:text-5xl">Mitä pinnoitamme</h2>
-      <div class="mt-10 grid gap-4 md:grid-cols-2">
-        {
-          services.map((service, index) => (
-            <a class="block border border-line bg-ink p-6 no-underline hover:border-brand" href={servicePath(service.slug)}>
-              <p class="display text-2xl text-brand">{String(index + 1).padStart(2, "0")}</p>
-              <h3 class="display mt-3 text-4xl text-paper">{service.nav}</h3>
-              <p class="mt-3 text-mist">{service.lead}</p>
-              <p class="mt-6 text-sm font-semibold tracking-[0.14em] text-brand uppercase">Tutustu palveluun</p>
-            </a>
-          ))
-        }
+    <div class="home-hero-shade" aria-hidden="true"></div>
+    <div class="shell">
+      <p class="home-hero-kicker">Ceramic Pro Strong</p>
+      <h1>
+        <span>Ratkaisu koneiden helpompaan puhtaanapitoon</span>
+        <span>ja suojaukseen ulkoisilta tekijöiltä</span>
+      </h1>
+      <div class="hero-actions">
+        <a class="btn btn-ghost" href="#yhteydenotto">Pyydä tarjous</a>
+        <a class="btn btn-ghost" href={`tel:${site.phoneTel}`}>Soita {site.phoneDisplay}</a>
       </div>
     </div>
   </section>
 
-  <section class="paper" aria-labelledby="prosessi">
-    <div class="shell py-16 lg:py-20">
-      <p class="text-xs font-semibold tracking-[0.18em] text-[#6b4e00] uppercase">Työn kulku</p>
-      <h2 id="prosessi" class="display mt-3 text-4xl sm:text-5xl">Näin työ etenee</h2>
-      <ol class="mt-10 grid gap-8 md:grid-cols-5">
-        {
-          steps.map((step) => (
-            <li>
-              <p class="display text-4xl text-[#6b4e00]">{step.n}</p>
-              <h3 class="display mt-3 text-2xl">{step.title}</h3>
-              <p class="mt-2 text-sm">
-                <GapText text={step.text} />
-              </p>
-            </li>
-          ))
-        }
-      </ol>
+  <section class="statement" aria-labelledby="esittely">
+    <div class="shell">
+      <p class="eyebrow">Tietoa meistä</p>
+      <h2 id="esittely" class="display wrap-normal mt-4">
+        Tarjoamme työkoneiden, raskaan kaluston ja oheislaitteiden pinnoituspalveluita ympäri Suomea.
+      </h2>
     </div>
   </section>
 
-  <section class="shell py-16 lg:py-20" aria-labelledby="vertailu">
-    <p class="eyebrow">Pinta</p>
-    <h2 id="vertailu" class="display mt-3 max-w-3xl text-4xl sm:text-5xl">Lika irtoaa helpommin</h2>
-    <p class="mt-4 max-w-2xl text-mist">
-      Vedä liukusäädintä. Oikealla on valokuva Volvo L90H -pyöräkuormaajasta. Vasemmalla sama kuva, johon on lisätty mutaa ja pölyä.
-    </p>
-    <div class="mt-8">
-      <BeforeAfter />
-    </div>
-    <p class="mt-3 max-w-2xl text-sm text-mist">
-      Likainen puoli on havainne samasta valokuvasta. Puhtaan puolen kuva on hallista.
-    </p>
-  </section>
-
-  <section class="border-t border-line" aria-labelledby="luottamus">
-    <div class="shell py-16 lg:py-20">
-      <h2 id="luottamus" class="display text-4xl sm:text-5xl">Yritys</h2>
-      <div class="mt-8 grid gap-4 lg:grid-cols-3">
-      <article class="border border-line p-6">
-        <h3 class="display text-3xl">Perniöstä koko Suomeen</h3>
-        <p class="mt-3 text-mist">
-          Yritys on perustettu {site.founded}. Toimipaikka on {site.address.street}, {site.address.postalCode}{" "}
-          {site.address.city}. Pinnoituspalvelu tarjotaan ympäri Suomen.
-        </p>
-      </article>
-      <article class="border border-line p-6">
-        <h3 class="display text-3xl">Tuotteet ja työvälineet</h3>
-        <p class="mt-3 text-mist">
-          <GapText text={sharedNotes.products} />
-        </p>
-      </article>
-      <article class="border border-line p-6">
-        <h3 class="display text-3xl">Asiakkaiden kokemuksia</h3>
-        <p class="mt-3 text-mist">Lausunnot julkaistaan nimellä vain luvan kanssa.</p>
-        <p class="mt-3">
-          <GapText text="[TÄYDENNÄ: asiakaspalaute, nimi ja kalusto]" />
-        </p>
-      </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="border-t border-line bg-graphite" aria-labelledby="some">
-    <div class="shell py-12">
+  <section class="bg-[#f3f3f3] py-16" aria-labelledby="kuvat">
+    <div class="shell">
       <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <h2 id="some" class="display text-4xl">Työn kuvia</h2>
-          <p class="mt-3 max-w-xl text-mist">
-            Valokuvat on julkaistu yrityksen Facebook-sivulla. Sama kuvasarja on referensseissä.
-          </p>
+          <h2 id="kuvat" class="display text-4xl sm:text-5xl">Kuvia laitteista</h2>
+          <p class="mt-3 max-w-xl text-mist">Valokuvat on julkaistu yrityksen Facebook-sivulla.</p>
         </div>
-        <a class="btn btn-ghost" href="/referenssit/">Kaikki kuvat</a>
+        <a class="btn btn-line" href="/palvelut/#kuvat">Kaikki kuvat</a>
       </div>
-      <div class="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+    </div>
+    <div class="marquee mt-8">
+      <div class="marquee-track">
         {
-          homePhotos.map((item) => (
-            <a class="block no-underline" href="/referenssit/">
-              <img
-                src={item.src}
-                alt={item.alt}
-                width={item.width}
-                height={item.height}
-                class="aspect-[3/4] w-full object-cover"
-                loading="lazy"
-              />
-              <p class="mt-2 text-sm text-paper">{item.title}</p>
-            </a>
+          [false, true].map((hidden) => (
+            <div class="marquee-group" aria-hidden={hidden ? "true" : undefined}>
+              {gallery.map((item) => (
+                <a href="/palvelut/#kuvat" tabindex={hidden ? -1 : undefined}>
+                  <img
+                    src={item.src}
+                    alt={hidden ? "" : item.alt}
+                    width={item.width}
+                    height={item.height}
+                    loading="lazy"
+                  />
+                  <p class="mt-2 text-sm">{item.title}</p>
+                </a>
+              ))}
+            </div>
           ))
         }
-      </div>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a class="btn btn-ghost" href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram<span class="sr-only"> (avautuu uuteen välilehteen)</span></a>
-        <a class="btn btn-ghost" href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook<span class="sr-only"> (avautuu uuteen välilehteen)</span></a>
       </div>
     </div>
   </section>
 
-  <CtaBand />
+  <section class="band-dark py-16 lg:py-20" aria-labelledby="hyodyt">
+    <div class="shell">
+      <p class="eyebrow">Ceramic Pro Strong</p>
+      <h2 id="hyodyt" class="display mt-3 max-w-3xl text-4xl sm:text-5xl">Pinnoitteen tarjoamat hyödyt</h2>
+      <div class="mt-10 grid gap-8 lg:grid-cols-3">
+        {
+          benefits.map((benefit) => (
+            <article class="border-t border-[#e5e5e5] pt-4">
+              <h3 class="display text-3xl">{benefit.title}</h3>
+              <p class="mt-3 text-mist">{benefit.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[#f3f3f3] py-16" id="yhteydenotto" aria-labelledby="lomake">
+    <div class="shell grid items-start gap-10 lg:grid-cols-[0.75fr_1.25fr]">
+      <div>
+        <h2 id="lomake" class="display text-4xl sm:text-5xl">Yhteydenotto</h2>
+        <p class="mt-4 text-mist">
+          Kerro kalusto ja paikkakunta. Saat hinnan ennen kuin työhön ryhdytään. Voit myös soittaa numeroon {site.phoneDisplay}.
+        </p>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
 </Base>
+
+<script>
+  const slides = [...document.querySelectorAll<HTMLElement>(".home-hero-shot")];
+  const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (slides.length > 1 && !motion.matches) {
+    let index = 0;
+    let timer = 0;
+
+    const show = (next: number) => {
+      slides[index].classList.remove("is-shown");
+      index = next;
+      slides[index].classList.add("is-shown");
+    };
+
+    const start = () => {
+      window.clearInterval(timer);
+      timer = window.setInterval(() => show((index + 1) % slides.length), 8500);
+    };
+
+    start();
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) window.clearInterval(timer);
+      else start();
+    });
+  }
+</script>

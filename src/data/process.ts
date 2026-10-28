@@ -53,9 +53,9 @@ export const sharedNotes = {
   price:
     "Hinta määräytyy koneen koon ja kunnon mukaan. Tarjous annetaan ennen työtä. [TÄYDENNÄ: alkaen-hinnat, jos ne halutaan näkyviin]",
   where:
-    "Palvelemme ympäri Suomen. [TÄYDENNÄ: työ Perniön toimipisteessä, asiakkaan luona vai molemmissa]",
+    "Pinnoitukset tehdään asiakkaan tai koneliikkeen tiloissa ympäri Suomen.",
   products:
-    "Käytössämme on markkinoiden parhaat tuotteet sekä työvälineet. [TÄYDENNÄ: tuotemerkit ja mahdolliset sertifikaatit]",
+    "Työkoneiden pinnoituksessa käytämme pääasiassa ruiskulla levitettävää Ceramic Pro Strong -pinnoitetta.",
   vehicles:
     "[TÄYDENNÄ: tehdäänkö myös henkilöautoja, veneitä tai matkailuautoja]",
 } as const;

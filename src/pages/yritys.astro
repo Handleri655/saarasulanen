@@ -1,0 +1,76 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { site, companyBlurb } from "../data/site";
+import { breadcrumbNode } from "../lib/jsonld";
+
+const about = [
+  "Saara Sulanen Oy on vuonna 2022 perustettu työkoneiden ja raskaan kaluston keraamisiin pinnoituksiin erikoistunut yritys.",
+  "Ammattitaito, intohimoinen tekeminen ja toimintatapojen jatkuva kehittäminen tekevät meistä yhden Suomen kovimmista palveluntarjoajista.",
+  "Yrityksen tavoitteena on suojata asiakkaan omaisuutta, helpottaa sen puhtaanapitoa, lisätä työmukavuutta sekä säilyttää sen jälleenmyyntiarvo.",
+  "Käytössämme on markkinoiden parhaat tuotteet sekä työvälineet, jotta voimme taata palveluidemme korkean laadun.",
+];
+
+const crumbs = [
+  { name: "Etusivu", href: "/" },
+  { name: "Yritys", href: "/yritys/" },
+];
+
+const title = "Yritys | Saara Sulanen Oy, Perniö";
+const description =
+  "Saara Sulanen Oy on vuonna 2022 perustettu työkoneiden ja raskaan kaluston keraamisiin pinnoituksiin erikoistunut yritys. Palvelu ympäri Suomen.";
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={[
+    breadcrumbNode(crumbs),
+    {
+      "@type": "AboutPage",
+      url: `${site.url}/yritys/`,
+      name: "Yritys",
+      mainEntity: { "@id": `${site.url}/#yritys` },
+    },
+  ]}
+>
+  <PageHero eyebrow="Yritys" title="Yritys" crumbs={crumbs} image="/kuvat/hero-ponsse.jpg">
+    <p>{companyBlurb}</p>
+  </PageHero>
+
+  <div class="shell py-14">
+    <h2 class="display text-4xl sm:text-5xl">Tietoa meistä</h2>
+    <ul class="mt-8 grid gap-4">
+      {
+        about.map((item) => (
+          <li class="border-t border-[#e5e5e5] pt-4 text-lg">{item}</li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="shell pb-16">
+    <div class="max-w-2xl">
+      <h2 class="display text-4xl">Toimipaikka</h2>
+      <p class="mt-4 text-mist">
+        Pinnoitukset tehdään asiakkaan tai koneliikkeen tiloissa ympäri Suomen. Yrityksen toimipaikka on Perniössä.
+      </p>
+      <dl class="mt-6 grid gap-3 text-sm">
+        <div class="grid grid-cols-[9rem_1fr] gap-3 border-b border-line py-2">
+          <dt class="text-mist">Perustettu</dt>
+          <dd>{site.founded}</dd>
+        </div>
+        <div class="grid grid-cols-[9rem_1fr] gap-3 border-b border-line py-2">
+          <dt class="text-mist">Y-tunnus</dt>
+          <dd>{site.businessId}</dd>
+        </div>
+        <div class="grid grid-cols-[9rem_1fr] gap-3 border-b border-line py-2">
+          <dt class="text-mist">Toimiala</dt>
+          <dd>{site.industry}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+  <CtaBand />
+</Base>

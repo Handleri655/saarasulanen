@@ -10,6 +10,15 @@ export default defineConfig({
   build: {
     format: "directory",
   },
+  redirects: {
+    "/meista": "/yritys/",
+    "/keraaminen-pinnoitus": "/palvelut/",
+    "/referenssit": "/palvelut/",
+    "/palvelut/tyokoneet": "/palvelut/",
+    "/palvelut/maatalouskoneet": "/palvelut/",
+    "/palvelut/kuorma-autot": "/palvelut/",
+    "/palvelut/oheislaitteet": "/palvelut/",
+  },
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

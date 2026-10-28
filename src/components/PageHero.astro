@@ -10,16 +10,19 @@ interface Props {
   eyebrow?: string;
   title: string;
   crumbs?: Crumb[];
+  image?: string;
 }
 
-const { eyebrow, title, crumbs } = Astro.props;
+const { eyebrow, title, crumbs, image = "/kuvat/hero-volvo.jpg" } = Astro.props;
 ---
 
-<header class="border-b border-line">
-  <div class="shell py-12 lg:py-16">
+<header class="page-hero">
+  <img class="page-hero-media" src={image} alt="" width="1280" height="720" />
+  <div class="page-hero-shade" aria-hidden="true"></div>
+  <div class="shell">
     {crumbs && <Breadcrumbs items={crumbs} />}
     {eyebrow && <p class:list={["eyebrow", crumbs && "mt-6"]}>{eyebrow}</p>}
-    <h1 class="display mt-3 max-w-4xl text-5xl sm:text-6xl">{title}</h1>
+    <h1 class="display wrap-normal mt-3 max-w-4xl text-5xl text-balance sm:text-6xl">{title}</h1>
     <div class="mt-5 max-w-2xl text-lg text-mist">
       <slot />
     </div>

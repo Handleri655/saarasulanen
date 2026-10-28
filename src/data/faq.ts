@@ -27,8 +27,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Tuletteko paikan päälle?",
-    a: "Palvelemme ympäri Suomen. Sen, tehdäänkö työ Perniön toimipisteessä, asiakkaan luona vai molemmissa, vahvistamme tarjouksessa.",
-    gap: "työ Perniön toimipisteessä, asiakkaan luona vai molemmissa",
+    a: "Kyllä. Pinnoitukset tehdään asiakkaan tai koneliikkeen tiloissa ympäri Suomen.",
   },
   {
     q: "Mitä pinnoitus maksaa?",

@@ -1,7 +1,6 @@
 ---
 import Logo from "./Logo.astro";
 import { site } from "../data/site";
-import { services, servicePath } from "../data/services";
 
 const year = new Date().getFullYear();
 ---
@@ -11,43 +10,31 @@ const year = new Date().getFullYear();
     <div>
       <Logo />
       <p class="mt-4 max-w-xs text-sm text-mist">
-        Keraamisia pinnoituksia työkoneille, maatalouskoneille ja raskaalle kalustolle.
+        Pinnoituspalveluita työkoneille, raskaalle kalustolle ja oheislaitteille ympäri Suomen.
       </p>
+    </div>
+    <div>
+      <h2 class="eyebrow">Sivut</h2>
+      <ul class="mt-4 grid gap-2 text-sm">
+        <li><a class="text-paper no-underline hover:text-brand" href="/">Etusivu</a></li>
+        <li><a class="text-paper no-underline hover:text-brand" href="/palvelut/">Palvelut</a></li>
+        <li><a class="text-paper no-underline hover:text-brand" href="/yritys/">Yritys</a></li>
+        <li><a class="text-paper no-underline hover:text-brand" href="/yhteystiedot/">Yhteystiedot</a></li>
+      </ul>
     </div>
     <div>
       <h2 class="eyebrow">Palvelut</h2>
       <ul class="mt-4 grid gap-2 text-sm">
-        <li><a class="text-paper no-underline hover:text-brand" href="/palvelut/">Kaikki palvelut</a></li>
-        {
-          services.map((service) => (
-            <li>
-              <a class="text-paper no-underline hover:text-brand" href={servicePath(service.slug)}>
-                {service.nav}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-    <div>
-      <h2 class="eyebrow">Yritys</h2>
-      <ul class="mt-4 grid gap-2 text-sm">
-        <li><a class="text-paper no-underline hover:text-brand" href="/keraaminen-pinnoitus/">Keraaminen pinnoitus</a></li>
-        <li><a class="text-paper no-underline hover:text-brand" href="/referenssit/">Referenssit</a></li>
-        <li><a class="text-paper no-underline hover:text-brand" href="/meista/">Meistä</a></li>
-        <li><a class="text-paper no-underline hover:text-brand" href="/yhteystiedot/">Yhteystiedot</a></li>
-        <li><a class="text-paper no-underline hover:text-brand" href="/tietosuoja/">Tietosuojaseloste</a></li>
-        <li><a class="text-paper no-underline hover:text-brand" href="/evasteet/">Evästeseloste</a></li>
+        <li><a class="text-paper no-underline hover:text-brand" href="/palvelut/#ceramic-pro">Ceramic Pro Strong</a></li>
+        <li><a class="text-paper no-underline hover:text-brand" href="/palvelut/#tummennukset">Lasien tummennukset</a></li>
+        <li><a class="text-paper no-underline hover:text-brand" href="/palvelut/#teippaukset">Mainosteippaukset</a></li>
       </ul>
     </div>
     <div>
       <h2 class="eyebrow">Yhteystiedot</h2>
       <address class="mt-4 text-sm not-italic text-paper">
         <p class="font-semibold">{site.name}</p>
-        <p>{site.address.street}</p>
-        <p>
-          {site.address.postalCode} {site.address.city}
-        </p>
+        <p>{site.address.city}</p>
         <p class="mt-3">
           <a class="text-paper no-underline hover:text-brand" href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
         </p>

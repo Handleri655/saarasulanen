@@ -21,8 +21,6 @@ export const site = {
   description:
     "Työkoneiden, raskaan kaluston ja oheislaitteiden keraamisiin pinnoituksiin erikoistunut yritys. Perustettu 2022, toimipaikka Perniössä, palvelu ympäri Suomen.",
   address: {
-    street: "Perniöntie 2530",
-    postalCode: "25500",
     city: "Perniö",
     country: "Suomi",
     countryCode: "FI",
@@ -35,11 +33,5 @@ export const site = {
   updated: "27.10.2026",
 } as const;
 
-export const mapsQuery = "Perniöntie 2530, 25500 Perniö";
-
-export const mapsEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(mapsQuery)}&z=12&output=embed`;
-
-export const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`;
-
 export const companyBlurb =
-  "Saara Sulanen Oy on vuonna 2022 perustettu työkoneiden, raskaan kaluston ja oheislaitteiden keraamisiin pinnoituksiin erikoistunut yritys. Käytössämme on markkinoiden parhaat tuotteet sekä työvälineet, jotta palvelun laatu pysyy korkeana. Tavoitteemme on suojata asiakkaan omaisuutta, helpottaa sen puhtaanapitoa, lisätä työmukavuutta ja säilyttää jälleenmyyntiarvo. Tarjoamme pinnoituspalveluita ympäri Suomea.";
+  "Saara Sulanen Oy on vuonna 2022 perustettu työkoneiden ja raskaan kaluston keraamisiin pinnoituksiin erikoistunut yritys.";

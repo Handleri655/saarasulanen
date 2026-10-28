@@ -17,7 +17,7 @@ const description =
       <h2>Rekisterinpitäjä</h2>
       <p>
         {site.name}<br />
-        {site.address.street}, {site.address.postalCode} {site.address.city}<br />
+        {site.address.city}<br />
         Y-tunnus {site.businessId}<br />
         <a href={`mailto:${site.email}`}>{site.email}</a><br />
         <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
@@ -31,7 +31,7 @@ const description =
         <li>viesti ja mahdolliset kuvat</li>
       </ul>
       <p>
-        Sähköposti- ja puhelinasioinnissa käsitellään ne tiedot, jotka lähetät. Sivusto ei kerää analytiikkaa eikä käytä seurantaevästeitä. Meistä-sivun kartta ladataan Googlelta. Yhteystietosivun kartta ladataan vasta, kun avaat sen. Katso <a href="/evasteet/">evästeseloste</a>.
+        Sähköposti- ja puhelinasioinnissa käsitellään ne tiedot, jotka lähetät. Sivusto ei kerää analytiikkaa eikä käytä seurantaevästeitä. Katso <a href="/evasteet/">evästeseloste</a>.
       </p>
 
       <h2>Mihin tietoja käytetään</h2>
@@ -53,13 +53,10 @@ const description =
         Viestit lukee yritys. Lomakkeen välittää FormSubmit (formsubmit.co), joka toimittaa sen sähköpostiin {site.email}.
         <span class="gap-chip">[TÄYDENNÄ: vahvista käsittelijä, jos lomakepalvelu vaihdetaan]</span>
       </p>
-      <p>Meistä-sivun kartta ja avattu yhteystietosivun kartta lähettävät Googlelle yhteyden kartan näyttämiseksi.</p>
-
       <h2>Siirrot EU:n ulkopuolelle</h2>
       <p>
         FormSubmit voi käsitellä tietoja EU:n tai ETA-alueen ulkopuolella.
         <span class="gap-chip">[TÄYDENNÄ: siirtoperuste, kun käsittelijä on vahvistettu]</span>
-        Google Maps voi kartan avaamisen jälkeen siirtää tietoja EU:n ulkopuolelle Googlen ehtojen mukaisesti.
       </p>
 
       <h2>Pakollisuus</h2>

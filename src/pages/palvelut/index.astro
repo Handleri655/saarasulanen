@@ -2,9 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import CtaBand from "../../components/CtaBand.astro";
-import GapText from "../../components/GapText.astro";
-import { services, servicePath } from "../../data/services";
-import { sharedNotes } from "../../data/process";
+import { gallery, galleryFilters } from "../../data/gallery";
 import { breadcrumbNode } from "../../lib/jsonld";
 
 const crumbs = [
@@ -12,40 +10,116 @@ const crumbs = [
   { name: "Palvelut", href: "/palvelut/" },
 ];
 
-const title = "Pinnoituspalvelut raskaalle kalustolle | Saara Sulanen";
+const title = "Ceramic Pro Strong -pinnoitus | Saara Sulanen";
 const description =
-  "Keraaminen pinnoitus työkoneille, maatalouskoneille, kuorma-autoille ja oheislaitteille. Työ hinnoitellaan kohteen mukaan. Pyydä tarjous.";
+  "Työkoneiden, raskaan kaluston ja oheislaitteiden Ceramic Pro Strong -pinnoitukset ympäri Suomen, asiakkaan tai koneliikkeen tiloissa. Myös lasien tummennukset ja pienet mainosteippaukset.";
 ---
 
 <Base title={title} description={description} jsonLd={[breadcrumbNode(crumbs)]}>
-  <PageHero eyebrow="Palvelut" title="Pinnoituspalvelut" crumbs={crumbs}>
+  <PageHero eyebrow="Palvelut" title="Ceramic Pro Strong" crumbs={crumbs} image="/kuvat/hero-volvo.jpg">
     <p>
-      Pinnoitamme työkoneita, maatalouskoneita, kuorma-autoja ja oheislaitteita. Metsäkoneet kuuluvat työkoneisiin.
-      Hinta määräytyy kohteen mukaan.
+      Saara Sulanen Oy tarjoaa ratkaisun koneiden helpompaan puhtaanapitoon ja suojaukseen ulkoisilta tekijöiltä.
     </p>
   </PageHero>
-  <div class="shell grid gap-4 py-14 md:grid-cols-2">
-    {
-      services.map((service) => (
-        <a class="block border border-line bg-panel p-6 no-underline hover:border-brand" href={servicePath(service.slug)}>
-          <h2 class="display text-4xl text-paper">{service.nav}</h2>
-          <p class="mt-3 text-mist">{service.lead}</p>
-          <p class="mt-6 text-sm font-semibold tracking-[0.14em] text-brand uppercase">Avaa palvelu</p>
-        </a>
-      ))
-    }
-  </div>
-  <div class="shell grid gap-4 pb-16 lg:grid-cols-2">
-    <article class="border border-line p-6">
-      <h2 class="display text-3xl">Missä työ tehdään</h2>
-      <p class="mt-3 text-mist"><GapText text={sharedNotes.where} /></p>
-    </article>
-    <article class="border border-line p-6">
-      <h2 class="display text-3xl">Muu kalusto</h2>
-      <p class="mt-3 text-mist">
-        Erikoisala on työkoneet, raskas kalusto ja oheislaitteet. <GapText text={sharedNotes.vehicles} />
+
+  <section id="ceramic-pro" class="scroll-mt-28">
+    <div class="shell grid gap-10 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      <p class="ceramic-mark">Ceramic Pro <span>Strong</span></p>
+      <div class="grid gap-4 text-mist">
+        <p>
+          Saara Sulanen Oy tarjoaa ratkaisun koneiden helpompaan puhtaanapitoon ja suojaukseen ulkoisilta tekijöiltä.
+          Teemme työkoneiden, raskaan kaluston ja oheislaitteiden pinnoitukset ympäri Suomen, asiakkaan tai koneliikkeen tiloissa.
+        </p>
+        <p>
+          Työkoneiden pinnoituksessa käytämme pääasiassa ruiskulla levitettävää Ceramic Pro Strong -pinnoitetta.
+          Tuotteen ominaisuuksien sekä asennustavan ansiosta maalipinnalle saadaan noin 15 mikronia paksu suojakalvo.
+          Asennustapa mahdollistaa myös vaikeampien välien pinnoituksen, kuten kaivinkoneiden puomiston.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="kuvat" class="scroll-mt-28 bg-[#f3f3f3] py-16" aria-labelledby="kuvat-otsikko">
+    <div class="shell">
+      <h2 id="kuvat-otsikko" class="display text-4xl sm:text-5xl">Työn kuvia</h2>
+      <p class="mt-3 max-w-2xl text-mist">
+        Kuvat on julkaistu Saara Sulanen Oy:n Facebook-sivulla. Pyöräkuormaajan kuvasarja on merkitty sijaintiin Piikkiö.
       </p>
+      <div class="mt-8 flex flex-wrap gap-2" role="group" aria-label="Suodata kaluston mukaan">
+        {
+          galleryFilters.map((filter) => (
+            <button class="filter-btn" type="button" data-filter={filter.id} aria-pressed={filter.id === "kaikki" ? "true" : "false"}>
+              {filter.label}
+            </button>
+          ))
+        }
+      </div>
+      <p class="mt-4 text-sm text-mist" aria-live="polite" data-count>
+        {gallery.length} kohdetta
+      </p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-gallery>
+        {
+          gallery.map((item) => (
+            <article class="border border-line bg-ink text-paper" data-category={item.category}>
+              <img
+                src={item.src}
+                alt={item.alt}
+                width={item.width}
+                height={item.height}
+                class="aspect-[3/4] w-full object-cover"
+                loading="lazy"
+              />
+              <div class="p-5">
+                <p class="eyebrow">{item.categoryLabel}</p>
+                <h3 class="display wrap-normal mt-2 text-2xl">{item.title}</h3>
+                <p class="mt-3 text-sm text-mist">{item.caption}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p class="mt-6 hidden text-mist" data-empty>Ei kuvia tässä luokassa.</p>
+    </div>
+  </section>
+
+  <section class="shell grid gap-4 py-16 sm:grid-cols-2" aria-label="Muut palvelut">
+    <article id="tummennukset" class="scroll-mt-28 soft-card p-6">
+      <h2 class="display text-3xl">Lasien tummennukset</h2>
+      <p class="mt-3 text-mist">Kauttamme saat myös lasien tummennukset.</p>
     </article>
-  </div>
+    <article id="teippaukset" class="scroll-mt-28 soft-card p-6">
+      <h2 class="display text-3xl">Pienet mainosteippaukset</h2>
+      <p class="mt-3 text-mist">Kauttamme saat myös pienet mainosteippaukset.</p>
+    </article>
+  </section>
   <CtaBand />
 </Base>
+
+<script>
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filter]"));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-category]"));
+  const count = document.querySelector("[data-count]");
+  const empty = document.querySelector("[data-empty]");
+
+  const apply = (filter: string) => {
+    let visible = 0;
+    cards.forEach((card) => {
+      const show = filter === "kaikki" || card.dataset.category === filter;
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", button.dataset.filter === filter ? "true" : "false");
+    });
+    if (count) count.textContent = visible === 1 ? "1 kohde" : `${visible} kohdetta`;
+    if (empty instanceof HTMLElement) empty.classList.toggle("hidden", visible !== 0);
+  };
+
+  const initial = new URLSearchParams(location.search).get("tyyppi");
+  const known = buttons.some((button) => button.dataset.filter === initial);
+  apply(known && initial ? initial : "kaikki");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => apply(button.dataset.filter || "kaikki"));
+  });
+</script>

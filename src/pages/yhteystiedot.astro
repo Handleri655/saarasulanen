@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import ContactForm from "../components/ContactForm.astro";
 import GapText from "../components/GapText.astro";
-import { site, mapsEmbed, mapsQuery } from "../data/site";
+import { site } from "../data/site";
 import { breadcrumbNode } from "../lib/jsonld";
 
 const crumbs = [
@@ -13,7 +13,7 @@ const crumbs = [
 
 const title = "Pyydä tarjous pinnoituksesta | Saara Sulanen";
 const description =
-  "Pyydä tarjous keraamisesta pinnoituksesta. Soita 050 351 4657 tai lähetä lomake. Saara Sulanen Oy, Perniöntie 2530, 25500 Perniö.";
+  "Pyydä tarjous keraamisesta pinnoituksesta. Soita 050 351 4657 tai lähetä lomake.";
 ---
 
 <Base
@@ -29,19 +29,31 @@ const description =
     },
   ]}
 >
-  <PageHero eyebrow="Yhteys" title="Pyydä tarjous" crumbs={crumbs}>
+  <PageHero eyebrow="Yhteys" title="Pyydä tarjous" crumbs={crumbs} image="/kuvat/hero-volvo.jpg">
     <p>Kerro kalusto ja paikkakunta. Saat hinnan ennen päätöstä. Voit myös soittaa tai laittaa sähköpostia.</p>
   </PageHero>
 
+  <section class="border-b border-line" aria-labelledby="miksi">
+    <div class="shell py-14">
+      <h2 id="miksi" class="display text-4xl sm:text-5xl">Miksi meidät</h2>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-3">
+        {
+          ["Asiakaslähtöisyys", "Laatu edellä", "Luotettava toteutus"].map((item) => (
+            <li class="border-t-2 border-brand pt-4">
+              <p class="display text-3xl">{item}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
   <div class="shell grid gap-12 py-14 lg:grid-cols-[1.15fr_0.85fr]">
     <ContactForm />
-    <aside class="h-fit border border-line bg-panel p-6">
+    <aside class="soft-card h-fit p-6">
       <h2 class="display text-3xl">Saara Sulanen Oy</h2>
       <address class="mt-4 not-italic">
-        <p>{site.address.street}</p>
-        <p>
-          {site.address.postalCode} {site.address.city}
-        </p>
+        <p>{site.address.city}</p>
         <p class="mt-4">
           <a class="text-brand no-underline" href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
         </p>
@@ -50,43 +62,18 @@ const description =
         </p>
       </address>
       <p class="mt-4 text-sm text-mist">Y-tunnus {site.businessId}</p>
-      <p class="mt-4 text-sm text-mist">Käynti- ja postiosoite ovat samat.</p>
       <p class="mt-4">
         <GapText text="[TÄYDENNÄ: aukioloajat]" />
       </p>
       <ul class="mt-6 flex gap-4 text-sm font-semibold">
         <li>
-          <a class="text-paper no-underline hover:text-brand" href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a class="no-underline hover:text-brand" href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
         </li>
         <li>
-          <a class="text-paper no-underline hover:text-brand" href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="no-underline hover:text-brand" href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
         </li>
       </ul>
     </aside>
   </div>
 
-  <div class="shell pb-16">
-    <h2 class="display text-3xl">Kartta</h2>
-    <p class="mt-2 text-sm text-mist">
-      {mapsQuery}. Kartta ladataan Googlelta vasta, kun avaat sen. Google voi asettaa evästeitä.
-    </p>
-    <div class="mt-4 min-h-20 border border-line" data-map data-embed={mapsEmbed}>
-      <button class="btn btn-ghost m-4" type="button" data-map-open>Näytä kartta</button>
-    </div>
-  </div>
 </Base>
-
-<script>
-  const box = document.querySelector("[data-map]");
-  const button = document.querySelector("[data-map-open]");
-  button?.addEventListener("click", () => {
-    if (!(box instanceof HTMLElement)) return;
-    const frame = document.createElement("iframe");
-    frame.title = "Kartta: Perniöntie 2530, 25500 Perniö";
-    frame.src = box.dataset.embed || "";
-    frame.loading = "lazy";
-    frame.referrerPolicy = "no-referrer-when-downgrade";
-    frame.className = "h-80 w-full border-0";
-    box.replaceChildren(frame);
-  });
-</script>

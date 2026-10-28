@@ -25,8 +25,6 @@ export function organizationNode() {
     image: `${site.url}/og.png`,
     address: {
       "@type": "PostalAddress",
-      streetAddress: site.address.street,
-      postalCode: site.address.postalCode,
       addressLocality: site.address.city,
       addressCountry: site.address.countryCode,
     },
