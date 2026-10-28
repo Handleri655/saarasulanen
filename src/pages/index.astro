@@ -48,7 +48,12 @@ const description =
         <span>ja suojaukseen ulkoisilta tekijöiltä</span>
       </h1>
       <div class="hero-actions">
-        <a class="btn btn-quote" href="#yhteydenotto">Pyydä tarjous</a>
+        <a class="btn btn-quote" href="#yhteydenotto">
+          Ota yhteyttä
+          <svg class="btn-arrow" viewBox="0 0 20 10" aria-hidden="true">
+            <path d="M0 3.6h10.5V1.2L19 5l-8.5 3.8V6.4H0z" fill="currentColor"></path>
+          </svg>
+        </a>
         <a class="btn btn-ghost" href={`tel:${site.phoneTel}`}>Soita {site.phoneDisplay}</a>
       </div>
     </div>
@@ -156,5 +161,126 @@ const description =
       if (document.hidden) window.clearInterval(timer);
       else start();
     });
+  }
+</script>
+
+<script>
+  const marquee = document.querySelector(".marquee");
+  const track = marquee?.querySelector(".marquee-track");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (marquee instanceof HTMLElement && track instanceof HTMLElement && !reduceMotion.matches) {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const duration = 48;
+    let offset = 0;
+    let paused = false;
+    let last = 0;
+    let pointerId = -1;
+    let startX = 0;
+    let startY = 0;
+    let startOffset = 0;
+    let dragged = false;
+
+    const span = () => track.scrollWidth / 2;
+
+    const wrap = (value: number) => {
+      const width = span();
+      if (width <= 0) return 0;
+      return ((value % width) + width) % width;
+    };
+
+    const draw = () => {
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    };
+
+    offset = wrap(-new DOMMatrix(getComputedStyle(track).transform).m41);
+    draw();
+    track.classList.add("is-driven");
+
+    const frame = (now: number) => {
+      if (document.hidden) {
+        last = 0;
+        requestAnimationFrame(frame);
+        return;
+      }
+      if (!last) last = now;
+      const dt = Math.min(now - last, 50) / 1000;
+      last = now;
+      if (!paused) {
+        const width = span();
+        if (width > 0) offset = wrap(offset + (width / duration) * dt);
+        draw();
+      }
+      requestAnimationFrame(frame);
+    };
+
+    if (finePointer) {
+      marquee.addEventListener("mouseenter", () => {
+        paused = true;
+      });
+      marquee.addEventListener("mouseleave", () => {
+        paused = false;
+        last = 0;
+      });
+      marquee.addEventListener("focusin", () => {
+        paused = true;
+      });
+      marquee.addEventListener("focusout", (event) => {
+        if (!marquee.contains(event.relatedTarget as Node | null)) {
+          paused = false;
+          last = 0;
+        }
+      });
+    }
+
+    marquee.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" || event.button !== 0) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      startOffset = offset;
+      dragged = false;
+    });
+
+    marquee.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== pointerId) return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      if (!dragged) {
+        if (Math.abs(dx) < 10 || Math.abs(dx) <= Math.abs(dy)) return;
+        dragged = true;
+        paused = true;
+        try {
+          marquee.setPointerCapture(event.pointerId);
+        } catch {
+          // The pointer can already be gone. The swipe still moves the track.
+        }
+      }
+      offset = wrap(startOffset - dx);
+      draw();
+    });
+
+    const release = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      pointerId = -1;
+      if (!dragged) return;
+      paused = false;
+      last = 0;
+    };
+
+    marquee.addEventListener("pointerup", release);
+    marquee.addEventListener("pointercancel", release);
+    marquee.addEventListener(
+      "click",
+      (event) => {
+        if (!dragged) return;
+        event.preventDefault();
+        event.stopPropagation();
+        dragged = false;
+      },
+      true,
+    );
+
+    requestAnimationFrame(frame);
   }
 </script>

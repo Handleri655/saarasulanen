@@ -149,8 +149,9 @@
 }
 
 .btn-quote {
+  gap: 0.55rem;
   min-height: 2.75rem;
-  padding: 0.65rem 1.15rem 0.65rem 0.9rem;
+  padding: 0.65rem 1.05rem 0.65rem 1.15rem;
   border-color: rgb(255 255 255 / 0.42);
   border-radius: 0;
   background: transparent;
@@ -162,11 +163,9 @@
   white-space: nowrap;
 }
 
-.btn-quote::before {
-  content: "";
-  width: 0.4rem;
-  height: 0.4rem;
-  background: var(--color-brand);
+.btn-arrow {
+  width: 0.95rem;
+  height: 0.55rem;
   flex: none;
 }
 
@@ -436,35 +435,6 @@
   gap: 0.85rem;
 }
 
-.site-phone {
-  display: none;
-  color: var(--color-paper);
-  text-decoration: none;
-  text-align: right;
-  line-height: 1.15;
-}
-
-.site-phone span {
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-mist);
-}
-
-.site-phone strong {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.site-phone:hover strong {
-  color: var(--color-brand);
-}
-
 .menu-btn {
   display: grid;
   width: 2.75rem;
@@ -564,12 +534,6 @@
 
   .menu-btn {
     display: none;
-  }
-}
-
-@media (min-width: 1180px) {
-  .site-phone {
-    display: block;
   }
 }
 
@@ -948,6 +912,42 @@ main .text-mist {
   white-space: nowrap;
 }
 
+@media (max-width: 700px) {
+  .home-hero-kicker {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(1.85rem, 8.4vw, 2.35rem);
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .home-hero h1 span {
+    display: inline;
+    white-space: normal;
+  }
+
+  .home-hero h1 span + span::before {
+    content: " ";
+  }
+
+  .home-hero .shell {
+    padding-block: 4.5rem 7rem;
+  }
+
+  .home-hero .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: min(100%, 18rem);
+    margin-inline: auto;
+  }
+}
+
 .footer-certs {
   background: #000;
 }
@@ -1100,19 +1100,28 @@ main .text-mist {
 }
 
 .marquee {
+  position: relative;
   overflow: hidden;
   width: 100%;
+  touch-action: pan-y;
 }
 
 .marquee-track {
   display: flex;
   width: max-content;
   animation: marquee 48s linear infinite;
+  will-change: transform;
 }
 
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
+.marquee-track.is-driven {
+  animation: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 .marquee-group {
@@ -1136,8 +1145,8 @@ main .text-mist {
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {

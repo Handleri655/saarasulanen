@@ -30,11 +30,12 @@ const links = [
       }
     </nav>
     <div class="site-tools">
-      <a class="site-phone" href={`tel:${site.phoneTel}`}>
-        <span>Soita</span>
-        <strong>{site.phoneDisplay}</strong>
+      <a class="btn btn-quote" href="/yhteystiedot/">
+        Ota yhteyttä
+        <svg class="btn-arrow" viewBox="0 0 20 10" aria-hidden="true">
+          <path d="M0 3.6h10.5V1.2L19 5l-8.5 3.8V6.4H0z" fill="currentColor"></path>
+        </svg>
       </a>
-      <a class="btn btn-quote" href="/yhteystiedot/">Pyydä tarjous</a>
     </div>
     <button type="button" class="menu-btn" aria-haspopup="dialog" aria-expanded="false" data-menu-open>
       <span class="sr-only">Avaa valikko</span>
@@ -71,7 +72,12 @@ const links = [
     </nav>
     <div class="nav-dialog-actions">
       <a class="btn btn-ghost" href={`tel:${site.phoneTel}`}>Soita</a>
-      <a class="btn btn-quote" href="/yhteystiedot/">Pyydä tarjous</a>
+      <a class="btn btn-quote" href="/yhteystiedot/">
+        Ota yhteyttä
+        <svg class="btn-arrow" viewBox="0 0 20 10" aria-hidden="true">
+          <path d="M0 3.6h10.5V1.2L19 5l-8.5 3.8V6.4H0z" fill="currentColor"></path>
+        </svg>
+      </a>
     </div>
   </div>
 </dialog>
