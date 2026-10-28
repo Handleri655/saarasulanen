@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import ContactForm from "../components/ContactForm.astro";
+import FinlandMap from "../components/FinlandMap.astro";
 import { site } from "../data/site";
 import { gallery } from "../data/gallery";
 
@@ -47,18 +48,24 @@ const description =
         <span>ja suojaukseen ulkoisilta tekijöiltä</span>
       </h1>
       <div class="hero-actions">
-        <a class="btn btn-ghost" href="#yhteydenotto">Pyydä tarjous</a>
+        <a class="btn btn-quote" href="#yhteydenotto">Pyydä tarjous</a>
         <a class="btn btn-ghost" href={`tel:${site.phoneTel}`}>Soita {site.phoneDisplay}</a>
       </div>
     </div>
   </section>
 
   <section class="statement" aria-labelledby="esittely">
-    <div class="shell">
-      <p class="eyebrow">Tietoa meistä</p>
-      <h2 id="esittely" class="display wrap-normal mt-4">
-        Tarjoamme työkoneiden, raskaan kaluston ja oheislaitteiden pinnoituspalveluita ympäri Suomea.
-      </h2>
+    <div class="shell statement-layout">
+      <div>
+        <p class="eyebrow">Tietoa meistä</p>
+        <h2 id="esittely" class="display wrap-normal mt-4">
+          Tarjoamme työkoneiden, raskaan kaluston ja oheislaitteiden pinnoituspalveluita ympäri Suomea.
+        </h2>
+      </div>
+      <figure class="finland-map">
+        <FinlandMap />
+        <figcaption>Koko Suomi</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -98,8 +105,7 @@ const description =
 
   <section class="band-dark py-16 lg:py-20" aria-labelledby="hyodyt">
     <div class="shell">
-      <p class="eyebrow">Ceramic Pro Strong</p>
-      <h2 id="hyodyt" class="display mt-3 max-w-3xl text-4xl sm:text-5xl">Pinnoitteen tarjoamat hyödyt</h2>
+      <h2 id="hyodyt" class="display max-w-3xl text-4xl sm:text-5xl">Pinnoitteen tarjoamat hyödyt</h2>
       <div class="mt-10 grid gap-8 lg:grid-cols-3">
         {
           benefits.map((benefit) => (

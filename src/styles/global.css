@@ -148,6 +148,56 @@
   outline-color: #fff;
 }
 
+.btn-quote {
+  min-height: 2.75rem;
+  padding: 0.65rem 1.15rem 0.65rem 0.9rem;
+  border-color: rgb(255 255 255 / 0.42);
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+}
+
+.btn-quote::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--color-brand);
+  flex: none;
+}
+
+.btn-quote:hover {
+  border-color: #fff;
+  background: #fff;
+  color: #111;
+}
+
+.btn-quote.on-light {
+  border-color: #111;
+  color: #111;
+}
+
+.btn-quote.on-light:hover {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.hero-actions .btn-ghost,
+.nav-dialog-actions .btn-ghost,
+.cta-actions .btn-ghost {
+  min-height: 2.75rem;
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
 .btn-ghost {
   background: transparent;
   color: var(--color-paper);
@@ -502,7 +552,6 @@
 
 .nav-dialog-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
   margin-top: 1.25rem;
 }
@@ -712,7 +761,20 @@ details[open] .faq-icon::before {
 }
 
 .mobile-bar {
+  overflow: clip;
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+.mobile-bar a {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mobile-quote {
+  box-shadow: inset 2px 0 0 var(--color-brand);
 }
 
 body:has(input:focus) .mobile-bar,
@@ -732,7 +794,7 @@ main .text-mist {
 }
 
 .band-dark {
-  background: #111111;
+  background: #000000;
 }
 
 .band-dark .eyebrow {
@@ -886,18 +948,14 @@ main .text-mist {
   white-space: nowrap;
 }
 
-.ceramic-mark {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 5vw, 4.2rem);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 0.9;
-  text-transform: uppercase;
+.footer-certs {
+  background: #000;
 }
 
-.ceramic-mark span {
-  color: var(--color-brand);
+.footer-cert {
+  display: block;
+  width: min(6.5rem, 42vw);
+  height: auto;
 }
 
 .home-hero .shell,
@@ -929,8 +987,14 @@ main .text-mist {
 }
 
 .statement {
-  padding-block: 5.5rem;
+  padding-block: 4.5rem 5rem;
   text-align: center;
+}
+
+.statement-layout {
+  display: grid;
+  align-items: center;
+  gap: 2.25rem;
 }
 
 .statement h2 {
@@ -938,6 +1002,40 @@ main .text-mist {
   margin-inline: auto;
   font-size: clamp(1.7rem, 3.2vw, 2.65rem);
   line-height: 1.05;
+}
+
+.finland-map {
+  margin: 0;
+  justify-self: center;
+  color: #111111;
+}
+
+.finland-map svg {
+  display: block;
+  width: min(9.5rem, 46vw);
+  height: auto;
+  margin-inline: auto;
+}
+
+.finland-map figcaption {
+  margin-top: 0.85rem;
+  color: var(--color-brand);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 800px) {
+  .statement-layout {
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: 3.5rem;
+    text-align: left;
+  }
+
+  .statement-layout h2 {
+    margin-inline: 0;
+  }
 }
 
 .media-card {

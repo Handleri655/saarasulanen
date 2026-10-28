@@ -59,5 +59,38 @@ const graph = serializeGraph([organizationNode(), websiteNode(), ...jsonLd]);
     <Footer />
     <MobileBar />
     <div class="h-14 md:hidden" aria-hidden="true"></div>
+    <script>
+      import { animate, hover, press } from "motion";
+
+      const buttons = ".btn, button, .mobile-bar a";
+      const pressed = new WeakSet<Element>();
+      const hovered = new WeakSet<Element>();
+      const spring = { type: "spring" as const, stiffness: 520, damping: 28, mass: 0.55 };
+
+      const settle = (element: Element) => {
+        const scale = pressed.has(element) ? 0.96 : hovered.has(element) ? 1.035 : 1;
+        animate(element, { scale }, spring);
+      };
+
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        hover(buttons, (element) => {
+          hovered.add(element);
+          settle(element);
+          return () => {
+            hovered.delete(element);
+            settle(element);
+          };
+        });
+
+        press(buttons, (element) => {
+          pressed.add(element);
+          settle(element);
+          return () => {
+            pressed.delete(element);
+            settle(element);
+          };
+        });
+      }
+    </script>
   </body>
 </html>
